@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/10/27 19:37:03 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/10/27 22:10:06 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,7 @@ t_data  *get_data()
     level_init(data->lvl);
     init_mlx(data->mlx, data->lvl);
     plyr_init(data->ply, data->lvl);
+    data->dsp = (P_W / 2) / tanf(deg_to_rad(data->ply->fov / 2));
+    data->abr = P_W / data->ply->fov;
     return (data);
 }

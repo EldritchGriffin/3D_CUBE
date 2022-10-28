@@ -6,11 +6,47 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/10/27 19:25:13 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/10/27 23:21:13 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
+
+void	render_sky3d(t_data	*data)
+{
+	int x;
+	int	y;
+
+	y = 0;
+	while(y <= (data->lvl->l_h * UNIT) / 2)
+	{
+		x = 0;
+		while(x <= data->lvl->l_w * UNIT)
+		{
+			mlx_pixel_put(data->mlx->mp, data->mlx->w3, x, y, 255);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	render_floor3d(t_data	*data)
+{
+	int x;
+	int y;
+
+	y = (data->lvl->l_h * UNIT) / 2;
+	while(y <= (data->lvl->l_h * UNIT))
+	{
+		x = 0;
+		while(x <= data->lvl->l_w * UNIT)
+		{
+			mlx_pixel_put(data->mlx->mp, data->mlx->w3, x, y, (255 << 8) + 99999);
+			x++;
+		}
+		y++;
+	}
+}
 
 void	render_wall2D(int	x, int	y, t_data	*data)
 {
@@ -70,12 +106,6 @@ void	render_player2D(t_data	*data)
 		mlx_pixel_put(data->mlx->mp, data->mlx->w2, data->ply->p_pos->x, i, (255 << 2 * 8));
 		i++;
 	}
-	ft_putstr_fd("the player's x coordinates == :", 1);
-	ft_putnbr_fd(data->ply->p_pos->x, 1);
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("the player's Y coordinates == :", 1);
-	ft_putnbr_fd(data->ply->p_pos->y, 1);
-	ft_putstr_fd("\n", 1);
 }
 
 int main()
@@ -83,8 +113,12 @@ int main()
 	t_data	*data;
 
 	data = get_data();
+	printf("test x = %f\n", data->ply->p_pos->x / UNIT);
+	printf("test x = %f\n", data->ply->p_pos->y / UNIT);
 	render_level(data);
 	render_player2D(data);
+	render_sky3d(data);
+	render_floor3d(data);
 	mlx_loop(data->mlx->mp);
 	return(0);
 }

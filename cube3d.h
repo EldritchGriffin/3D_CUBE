@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/10/27 20:12:21 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/10/27 21:48:17 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@
 
 
 //here im defining constants that we'll be using through the program ;; (((im gonna explain what the projection plane is when ur here its kinda abstract)));;;
-#define UNIT 64			//HOW MANY PIXELS IN EACH GRID UNIT; (( grid unit is the size dimensions of the cubes we're drawing));;;
-#define	ABR				//ANGLE BETWEEN RAYS;
-#define	P_W	320			//WIDTH OF THE PROJECTION PLANE;
-#define	P_H	200			//HEIGHT OF THE PROJECTION PLANE;
+#define UNIT	64			//HOW MANY PIXELS IN EACH GRID UNIT; (( grid unit is the size dimensions of the cubes we're drawing  ));;;
+#define	P_W		320			//WIDTH OF THE PROJECTION PLANE;
+#define	P_H		200			//HEIGHT OF THE PROJECTION PLANE;
+#define PI		3.14159		//APPROXIMATE VALUE OF PI
 
 
-//READ THE FUCKING COMMENTS!!!!!
+
+//here goes our global variables -----------
+
+//global variables --------------------
+
 
 typedef struct s_mlx
 {
@@ -79,14 +83,6 @@ typedef struct s_lvl
 	char	*ea;
 }			t_lvl;
 
-//this is the projection plane, ((im gonna explain this further when ur here because its kinda abstract));;
-
-typedef struct s_frame
-{
-	float		p_dst;			//distance between player and projection plane;
-	float		p_w;			//projection plane width;
-	float		p_h;			//projection plane height;
-}				t_frame;
 
 //t_data is the struct we gonna assign all our other main structs into in main for ease of parameter passing; lghlid dzb;;
 typedef struct	s_data
@@ -94,6 +90,8 @@ typedef struct	s_data
 	t_lvl	*lvl;
 	t_ply	*ply;
 	t_mlx	*mlx;
+	float	abr; //angle between rays;
+	float	dsp; //distance between player and projection plane;
 
 }				t_data;
 
@@ -105,5 +103,8 @@ t_data  *get_data();
 
 //--------------level drawing functions----------------
 
+//--------------math convrsion funcs-------------------
 
+float   rad_to_deg(float    x);
+float	deg_to_rad(float  x);
 #endif
