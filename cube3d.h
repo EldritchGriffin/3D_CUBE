@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/10/27 21:48:17 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/10/28 23:15:08 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,11 @@ t_data  *get_data();
 
 float   rad_to_deg(float    x);
 float	deg_to_rad(float  x);
+
+//--------------raycasting funcs------------------------
+
+float	cast_ray(t_data    *data, int i);
+void	render_ray(int X0, int Y0, int X1, int Y1, t_data *data);
+
+
 #endif

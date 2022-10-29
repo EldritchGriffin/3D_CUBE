@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/10/27 23:21:13 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/10/28 23:41:23 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,28 @@ void	render_player2D(t_data	*data)
 	}
 }
 
+void	loop_rays(t_data	*data)
+{
+	int i;
+
+	i = P_W - 1;
+	while(i >= 0)
+	{
+		cast_ray(data, i);
+		i--;
+	}
+}
+
 int main()
 {
 	t_data	*data;
 
 	data = get_data();
-	printf("test x = %f\n", data->ply->p_pos->x / UNIT);
-	printf("test x = %f\n", data->ply->p_pos->y / UNIT);
-	render_level(data);
-	render_player2D(data);
-	render_sky3d(data);
-	render_floor3d(data);
-	mlx_loop(data->mlx->mp);
+	//render_level(data);
+	//render_player2D(data);
+	//render_sky3d(data);
+	//render_floor3d(data);
+	loop_rays(data);
+	// mlx_loop(data->mlx->mp);
 	return(0);
 }
