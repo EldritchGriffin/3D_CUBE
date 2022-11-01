@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/01 21:38:50 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:41:49 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,29 +108,53 @@ void	render_player2D(t_data	*data)
 	}
 }
 
-void	loop_rays(t_data	*data)
+void	render_walls3d(float	*rays, t_data	*data)
 {
-	float 	i;
+	float	wh;
+	int		i;
+	float	j;
 
-	// i = P_W - 1;
-	i = 359;
+	i = P_W - 1;
 	while(i >= 0)
 	{
-		cast_ray(data, i);
-		i -= data->abr;
+		wh = UNIT / rays[i] * data->dsp;
+		j = 100 - (wh/2);
+		while(j <= (100 + (wh / 2)))
+		{
+			mlx_pixel_put(data->mlx->mp, data->mlx->w3, i, j, (255 << 1 * 8));
+			j++;
+		}
+		i--;
 	}
+}
+
+float	*loop_rays(t_data	*data)
+{
+	int 	i;
+	float	*rays;
+
+	rays = malloc(sizeof(float) * P_W - 1);
+	i = P_W - 1;
+	while(i >= 0)
+	{
+		rays[i] = cast_ray(data, i);
+		i--;
+	}
+	return (rays);
 }
 
 int main()
 {
 	t_data	*data;
+	float	*rays;
 
 	data = get_data();
 	render_level(data);
 	render_player2D(data);
-	// render_sky3d(data);
-	// render_floor3d(data);
-	loop_rays(data);
+	render_sky3d(data);
+	render_floor3d(data);
+	rays = loop_rays(data);
+	render_walls3d(rays, data);
 	mlx_loop(data->mlx->mp);
 	return(0);
 }

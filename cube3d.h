@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/01 20:11:28 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/01 22:55:48 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_data  *get_data();
 
 float   rad_to_deg(float    x);
 float	deg_to_rad(float  x);
+float   normalize_ray(float rl, float ra, t_data    *data);
 
 //--------------raycasting funcs------------------------
 

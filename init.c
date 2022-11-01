@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/10/31 03:44:03 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:10:04 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
 {
     mlx->mp = mlx_init();
     mlx->w2 = mlx_new_window(mlx->mp, lvl->l_w * UNIT, lvl->l_h * UNIT, "CUB2D MADAFAKA");
-    // mlx->w3 = mlx_new_window(mlx->mp, lvl->l_w * UNIT, lvl->l_h * UNIT, "CUB3D MADAFAKA");
+    mlx->w3 = mlx_new_window(mlx->mp, lvl->l_w * UNIT, lvl->l_h * UNIT, "CUB3D MADAFAKA");
+    // mlx->w3 = mlx_new_window(mlx->mp, P_W, P_H, "CUB3D MADAFAKA");
 }
 
 void    level_init(t_lvl   *lvl)
