@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:21:10 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/01 21:11:48 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:37:14 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ t_pos   check_wall_h(float  *res, float ra, t_data   *data)
     xa = ya / -tanf(deg_to_rad(ra));
     wpos.y = get_hwy(data, dir);
     wpos.x = data->ply->p_pos->x + (data->ply->p_pos->y - wpos.y) / tanf(deg_to_rad(ra));
-    if((int)wpos.x/UNIT >= data->lvl->l_w)
-        wpos.x = data->lvl->l_w * UNIT;
-    else if ((int)wpos.x/UNIT <= 0)
-        wpos.x = 0;
+     if((int)wpos.x/UNIT >= data->lvl->l_w || (int)wpos.x/UNIT <= 0)
+        return (*res = INFINITY, wpos);
     while(data->lvl->map[(int)wpos.y/UNIT][(int)wpos.x/UNIT] != '1')
     {
         wpos.x += xa;
@@ -115,16 +113,14 @@ t_pos   check_wall_v(float  *res, float ra, t_data   *data)
     ya = xa * -tanf(deg_to_rad(ra));
     wpos.x = get_vwx(data, dir);
     wpos.y =  data->ply->p_pos->y + (data->ply->p_pos->x - wpos.x) * tanf(deg_to_rad(ra));
-    if((int)wpos.y/UNIT >= data->lvl->l_h)
-        wpos.y = data->lvl->l_h * UNIT;
-    else if ((int)wpos.y/UNIT <= 0)
-        wpos.y = 0;
+    if((int)wpos.y/UNIT >= data->lvl->l_h || (int)wpos.y/UNIT <= 0)
+        return (*res = INFINITY, wpos);
     while(data->lvl->map[(int)wpos.y/UNIT][(int)wpos.x/UNIT] != '1')
     {
         wpos.x += xa;
         wpos.y += ya;
         if((int)wpos.y/UNIT >= data->lvl->l_h || (int)wpos.y/UNIT <= 0)
-            break;
+            return (*res = INFINITY, wpos);
     }
     *res = sqrtf(powf((data->ply->p_pos->x - wpos.x), 2) + powf((data->ply->p_pos->y - wpos.y), 2));
     return (wpos);
@@ -141,9 +137,11 @@ float    cast_ray(t_data    *data, int i)
     h = INFINITY;
     v = INFINITY;
     //TODO this is a hardcoded approach need to create a get ray angle function when we get into rotation
-    ra = 360 - (i * data->abr);
+    // ra = 180 - (i * data->abr);
+    ra = i;
+
     //------------------//
-    wposv = check_wall_v(&v ,ra, data);
+    wposv = check_wall_v(&v, ra, data);
     wposh = check_wall_h(&h, ra, data);
     if(h > v)
         render_ray(data->ply->p_pos->x, data->ply->p_pos->y, wposv.x, wposv.y, data, (255 << 0 * 8));

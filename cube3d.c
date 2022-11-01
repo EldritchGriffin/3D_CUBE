@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/01 20:49:23 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:38:50 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,14 @@ void	render_player2D(t_data	*data)
 
 void	loop_rays(t_data	*data)
 {
-	int 	i;
+	float 	i;
 
-	i = P_W - 1;
+	// i = P_W - 1;
+	i = 359;
 	while(i >= 0)
 	{
 		cast_ray(data, i);
-		i--;
+		i -= data->abr;
 	}
 }
 
