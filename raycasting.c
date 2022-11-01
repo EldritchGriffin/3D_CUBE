@@ -6,29 +6,13 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:21:10 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/10/29 00:27:27 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:11:48 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-float   p_grid_pos(float a)
-{
-    float res;
-    float rounded;
-
-    rounded = roundf(a);
-    res = 0;
-    if(a - 0.5 == (int)a)
-        return (0.5);
-    else if(rounded == (int)a)
-        res = a - rounded;
-    else if (rounded > (int)a)
-        res = (a - rounded) + 1;
-    return (res);
-}
-
-int get_dir(float   ra)
+int get_dir_v(float   ra)
 {
     int res;
 
@@ -36,46 +20,135 @@ int get_dir(float   ra)
     if(ra == 0)
         return (res);
     if (ra > 180)
-        res = -1;
+        res = 1;
     else if (ra < 180)
+        res = -1;
+    return (res);
+}
+
+int get_dir_h(float ra)
+{
+    int res;
+    
+    res = 0;
+    if(ra == 90 || ra == 270)
+        return (res);
+    if(ra > 90 && ra < 270)
+        return (res = -1, res);
+    if(ra < 90 || ra > 270)
         res = 1;
     return (res);
 }
 
-float   check_wall_h(float ra, t_data   *data)
+float   get_hwy(t_data  *data, int dir)
+{
+    int wy;
+    
+    if(dir == -1)
+    {
+        wy = (floor(data->ply->p_pos->y / UNIT) * UNIT ) - 1;
+    }
+    if(dir == 1)
+    {
+        wy = (floor(data->ply->p_pos->y / UNIT) * UNIT) + UNIT;
+    }
+    return (wy);
+}
+
+float   get_vwx(t_data  *data, int dir)
+{
+    int wx;
+    
+    if(dir == -1)
+    {
+        wx = (floor(data->ply->p_pos->x / UNIT) * UNIT ) - 1;
+    }
+    if(dir == 1)
+    {
+        wx = (floor(data->ply->p_pos->x / UNIT) * UNIT) + UNIT;
+    }
+    return (wx);
+}
+
+t_pos   check_wall_h(float  *res, float ra, t_data   *data)
 {
     float   xa;
     float   ya;
     int     dir;
-    float   res;
+    t_pos   wpos;
 
-    res = 0;
-    dir = get_dir(ra);
+    *res = 0;
+    dir = get_dir_v(ra);
+    if(dir == 0)
+        return (*res = INFINITY, wpos);
     ya = UNIT * dir;
-    xa = UNIT / tanf(rad_to_deg(ra));
-    return (res);
+    xa = ya / -tanf(deg_to_rad(ra));
+    wpos.y = get_hwy(data, dir);
+    wpos.x = data->ply->p_pos->x + (data->ply->p_pos->y - wpos.y) / tanf(deg_to_rad(ra));
+    if((int)wpos.x/UNIT >= data->lvl->l_w)
+        wpos.x = data->lvl->l_w * UNIT;
+    else if ((int)wpos.x/UNIT <= 0)
+        wpos.x = 0;
+    while(data->lvl->map[(int)wpos.y/UNIT][(int)wpos.x/UNIT] != '1')
+    {
+        wpos.x += xa;
+        wpos.y += ya;
+        if((int)wpos.x/UNIT >= data->lvl->l_w || (int)wpos.x/UNIT <= 0)
+            break;
+    }
+    *res = sqrtf(powf((data->ply->p_pos->x - wpos.x), 2) + powf((data->ply->p_pos->y - wpos.y), 2));
+    return (wpos);
 }
 
-// float   check_wall_v(float ra, t_data   *data)
-// {
+t_pos   check_wall_v(float  *res, float ra, t_data   *data)
+{
+    float xa;
+    float ya;
+    int   dir;
+    t_pos wpos;
 
-// }
+    *res = 0;
+    dir = get_dir_h(ra);
+    if(dir == 0)
+        return (*res = INFINITY, wpos);
+    xa = UNIT * dir;
+    ya = xa * -tanf(deg_to_rad(ra));
+    wpos.x = get_vwx(data, dir);
+    wpos.y =  data->ply->p_pos->y + (data->ply->p_pos->x - wpos.x) * tanf(deg_to_rad(ra));
+    if((int)wpos.y/UNIT >= data->lvl->l_h)
+        wpos.y = data->lvl->l_h * UNIT;
+    else if ((int)wpos.y/UNIT <= 0)
+        wpos.y = 0;
+    while(data->lvl->map[(int)wpos.y/UNIT][(int)wpos.x/UNIT] != '1')
+    {
+        wpos.x += xa;
+        wpos.y += ya;
+        if((int)wpos.y/UNIT >= data->lvl->l_h || (int)wpos.y/UNIT <= 0)
+            break;
+    }
+    *res = sqrtf(powf((data->ply->p_pos->x - wpos.x), 2) + powf((data->ply->p_pos->y - wpos.y), 2));
+    return (wpos);
+}
 
 float    cast_ray(t_data    *data, int i)
 {
     float   h;
-    // float   v;
+    float   v;
     float   ra;
+    t_pos   wposv;
+    t_pos   wposh;
 
+    h = INFINITY;
+    v = INFINITY;
     //TODO this is a hardcoded approach need to create a get ray angle function when we get into rotation
-    ra = 120 - (i * data->abr);
-    h = check_wall_h(ra, data);
-    // v = check_wall_v(ra, data);
-    // if  (h > v)
-    //     return (v);
-    // else if (v > h)
-    //     return (h);
-    // else
-    //     return (h);
-    return (h);
+    ra = 360 - (i * data->abr);
+    //------------------//
+    wposv = check_wall_v(&v ,ra, data);
+    wposh = check_wall_h(&h, ra, data);
+    if(h > v)
+        render_ray(data->ply->p_pos->x, data->ply->p_pos->y, wposv.x, wposv.y, data, (255 << 0 * 8));
+    if(h < v)
+        render_ray(data->ply->p_pos->x, data->ply->p_pos->y, wposh.x, wposh.y, data, (255 << 2 * 8));
+
+
 }
