@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/01 23:41:49 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/03 02:21:03 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,30 @@ void	render_walls3d(float	*rays, t_data	*data)
 	float	wh;
 	int		i;
 	float	j;
+	float	sx;
+	float	sy;
+	int		index;
 
-	i = P_W - 1;
-	while(i >= 0)
+	sx = roundf((data->lvl->l_w * UNIT) / P_W);
+	sy = (data->lvl->l_h * UNIT) / P_H;
+	index = data->lvl->l_w * UNIT;
+	i = (P_W - 1);
+	while(index >= 0 && i >= 0)
 	{
 		wh = UNIT / rays[i] * data->dsp;
-		j = 100 - (wh/2);
-		while(j <= (100 + (wh / 2)))
+		j = (data->lvl->l_h * UNIT / 2) - ((wh/2) * sy);
+		while(j <= ((data->lvl->l_h * UNIT / 2) + ((wh / 2) * sy)))
 		{
-			mlx_pixel_put(data->mlx->mp, data->mlx->w3, i, j, (255 << 1 * 8));
+			mlx_pixel_put(data->mlx->mp, data->mlx->w3, index , j, (255 << 1 * 8));
 			j++;
 		}
-		i--;
+		sx--;
+		if((sx <= 0))
+		{
+			sx = (data->lvl->l_w * UNIT) / P_W;
+			i--;
+		}
+		index--;
 	}
 }
 
