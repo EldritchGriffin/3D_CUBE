@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:21:10 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/03 02:19:12 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:20:49 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ float    cast_ray(t_data    *data, int i)
     h = INFINITY;
     v = INFINITY;
     //TODO this is a hardcoded approach need to create a get ray angle function when we get into rotation
-    ra = 120 - (i * data->abr);
+    ra = (data->ply->pa + 30) - (i * data->abr);
 
     //------------------//
     wposv = check_wall_v(&v, ra, data);

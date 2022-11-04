@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/03 02:19:15 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:39:53 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct	s_data
 	t_mlx	*mlx;
 	float	abr; //angle between rays;
 	float	dsp; //distance between player and projection plane;
+	float	*rays;
 
 }				t_data;
 

@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/03 02:21:03 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/04 23:39:49 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	render_walls3d(float	*rays, t_data	*data)
 	float	sy;
 	int		index;
 
-	sx = roundf((data->lvl->l_w * UNIT) / P_W);
+	sx = data->lvl->l_w * UNIT / P_W;
 	sy = (data->lvl->l_h * UNIT) / P_H;
 	index = data->lvl->l_w * UNIT;
 	i = (P_W - 1);
@@ -140,33 +140,57 @@ void	render_walls3d(float	*rays, t_data	*data)
 	}
 }
 
-float	*loop_rays(t_data	*data)
+void	loop_rays(t_data	*data)
 {
 	int 	i;
-	float	*rays;
 
-	rays = malloc(sizeof(float) * P_W - 1);
+	data->rays = malloc(sizeof(float) * P_W - 1);
 	i = P_W - 1;
 	while(i >= 0)
 	{
-		rays[i] = cast_ray(data, i);
+		data->rays[i] = cast_ray(data, i);
 		i--;
 	}
-	return (rays);
+}
+
+int	p_move(int keycode, t_data	*data)
+{
+	if(keycode == 0)
+		data->ply->p_pos->x -= 5;
+	if(keycode == 2)
+		data->ply->p_pos->x += 5;
+	if(keycode == 13)
+		data->ply->p_pos->y -= 5;
+	if(keycode == 1)
+		data->ply->p_pos->y += 5;
+	if(keycode == 123)
+		data->ply->pa += 5;
+	if(keycode == 124)
+		data->ply->pa -= 5;
+	mlx_clear_window(data->mlx->mp, data->mlx->w3);
+	mlx_clear_window(data->mlx->mp, data->mlx->w2);
+	render_level(data);
+	render_player2D(data);
+	render_floor3d(data);
+	render_sky3d(data);
+	loop_rays(data);
+	render_walls3d(data->rays, data);
+	return (keycode);
 }
 
 int main()
 {
 	t_data	*data;
-	float	*rays;
+	int		*keycode;
 
 	data = get_data();
 	render_level(data);
 	render_player2D(data);
 	render_sky3d(data);
 	render_floor3d(data);
-	rays = loop_rays(data);
-	render_walls3d(rays, data);
+	loop_rays(data);
+	render_walls3d(data->rays, data);
+	mlx_hook(data->mlx->w3, 2, 0, p_move, data);
 	mlx_loop(data->mlx->mp);
 	return(0);
 }
