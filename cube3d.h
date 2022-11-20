@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/04 22:39:53 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/11 09:54:08 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 #define	P_W		320			//WIDTH OF THE PROJECTION PLANE;
 #define	P_H		200			//HEIGHT OF THE PROJECTION PLANE;
 #define PI		3.14159		//APPROXIMATE VALUE OF PI
+#define	MVS		10			//movement speed of player
+#define	TRS		5			//turning speed of player
+#define	SSCL	6			//screen scaler == (P_W * SSCL && P_H * SSCL)
+#define	MSCL	8			//MINIMAP SCALER == (SCREEN WIDTH / MSCL && SCREEN HEIGHT / MSCL)
 
 
 
@@ -34,12 +38,22 @@
 
 //global variables --------------------
 
+//this whole struct is created as an optimization process, to avoid using mlx_put_pixel, because its damn slow, so we'll create our own.
+typedef struct	s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		len;
+	int		endn;
+}				t_img;
 
 typedef struct s_mlx
 {
 	void    *mp; //mlx_pointer;
-	void    *w2; //window_pointer to 2D rendering;
 	void	*w3; //window_pointer to 3D rendering;
+	int		w_h;
+	int		w_w;
 }               t_mlx;
 
 
@@ -93,6 +107,8 @@ typedef struct	s_data
 	float	abr; //angle between rays;
 	float	dsp; //distance between player and projection plane;
 	float	*rays;
+	t_img	*wrld;
+	t_img	*minimp;
 
 }				t_data;
 
@@ -114,6 +130,10 @@ float   normalize_ray(float rl, float ra, t_data    *data);
 
 float	cast_ray(t_data    *data, int i);
 void	render_ray(int X0, int Y0, int X1, int Y1, t_data *data, int color);
+
+//-------------mlx_mods---------------------------------
+
+void	pixel_put_img(t_img *img, int x, int y, int color);
 
 
 #endif

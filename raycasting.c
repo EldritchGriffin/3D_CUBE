@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:21:10 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/04 23:20:49 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/19 23:09:41 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,30 +126,43 @@ t_pos   check_wall_v(float  *res, float ra, t_data   *data)
     return (wpos);
 }
 
-float    cast_ray(t_data    *data, int i)
+float    cast_ray(t_data    *data, int  i)
 {
     float   h;
     float   v;
     float   ra;
+    int color = 0;;
     t_pos   wposv;
     t_pos   wposh;
 
+    ra = (data->ply->pa + 30) - ((i + 1) * data->abr);
+    if(ra >= 360)
+		ra = ra - 360;
+	if(ra < 0)
+		ra = 360 + ra;
     h = INFINITY;
     v = INFINITY;
-    //TODO this is a hardcoded approach need to create a get ray angle function when we get into rotation
-    ra = (data->ply->pa + 30) - (i * data->abr);
-
-    //------------------//
+    if (ra == data->ply->pa)
+        color = 0x00FF00;
     wposv = check_wall_v(&v, ra, data);
     wposh = check_wall_h(&h, ra, data);
     if(h > v)
     {
-        render_ray(data->ply->p_pos->x, data->ply->p_pos->y, wposv.x, wposv.y, data, (255 << 0 * 8));
+        if(color == 0)
+            color = 0xFF0000;
+        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposv.x / 4, wposv.y / 4, data, color);
         return (normalize_ray(v, ra, data));
     }
     if(h < v)
     {
-        render_ray(data->ply->p_pos->x, data->ply->p_pos->y, wposh.x, wposh.y, data, (255 << 2 * 8));
+        if (color == 0)
+            color = 255;
+        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposh.x / 4, wposh.y / 4, data, color);
+        return (normalize_ray(h, ra, data));
+    }
+    if(h == v)
+    {
+        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposh.x / 4, wposh.y / 4, data, color);
         return (normalize_ray(h, ra, data));
     }
     return (0);

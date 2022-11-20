@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/01 23:10:04 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/11 10:15:05 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,11 @@ void    p_pos_init(t_pos    *pos, t_lvl *lvl)
 
 void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
 {
+    mlx->w_h = P_H * SSCL;
+    mlx->w_w = P_W * SSCL;
     mlx->mp = mlx_init();
-    mlx->w2 = mlx_new_window(mlx->mp, lvl->l_w * UNIT, lvl->l_h * UNIT, "CUB2D MADAFAKA");
-    mlx->w3 = mlx_new_window(mlx->mp, lvl->l_w * UNIT, lvl->l_h * UNIT, "CUB3D MADAFAKA");
-    // mlx->w3 = mlx_new_window(mlx->mp, P_W, P_H, "CUB3D MADAFAKA");
+    mlx->w3 = mlx_new_window(mlx->mp, mlx->w_w, mlx->w_h, "CUB3D MADAFAKA");
+
 }
 
 void    level_init(t_lvl   *lvl)
@@ -99,6 +100,14 @@ void    plyr_init(t_ply *ply, t_lvl *lvl)
     p_pos_init(ply->p_pos, lvl);
 }
 
+void    img_init(t_data *data)
+{
+    data->wrld->img = mlx_new_image(data->mlx->mp, data->mlx->w_w, data->mlx->w_h);
+    data->wrld->addr = mlx_get_data_addr(data->wrld->img, &data->wrld->bpp, &data->wrld->len, &data->wrld->endn);
+    data->minimp->img = mlx_new_image(data->mlx->mp,data->mlx->w_w, data->mlx->w_h);
+    data->minimp->addr = mlx_get_data_addr(data->minimp->img, &data->minimp->bpp, &data->minimp->len, &data->minimp->endn);
+}
+
 t_data  *get_data()
 {
     t_data  *data;
@@ -107,9 +116,12 @@ t_data  *get_data()
     data->lvl = malloc(sizeof(t_lvl));
     data->mlx = malloc(sizeof(t_mlx));
     data->ply = malloc(sizeof(t_ply));
+    data->minimp = malloc(sizeof(t_img));
+    data->wrld = malloc(sizeof(t_img));
     level_init(data->lvl);
     init_mlx(data->mlx, data->lvl);
     plyr_init(data->ply, data->lvl);
+    img_init(data);
     data->dsp = (P_W / 2) / tanf(deg_to_rad(data->ply->fov / 2));
     data->abr =  data->ply->fov / P_W;
     return (data);
