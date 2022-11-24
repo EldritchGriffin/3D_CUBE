@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/11 09:54:08 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/24 22:53:48 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@
 #define	TRS		5			//turning speed of player
 #define	SSCL	6			//screen scaler == (P_W * SSCL && P_H * SSCL)
 #define	MSCL	8			//MINIMAP SCALER == (SCREEN WIDTH / MSCL && SCREEN HEIGHT / MSCL)
-
-
-
-//here goes our global variables -----------
-
-//global variables --------------------
 
 //this whole struct is created as an optimization process, to avoid using mlx_put_pixel, because its damn slow, so we'll create our own.
 typedef struct	s_img
@@ -109,6 +103,8 @@ typedef struct	s_data
 	float	*rays;
 	t_img	*wrld;
 	t_img	*minimp;
+	t_img	*floor;
+	t_img	*ceiling;
 
 }				t_data;
 
