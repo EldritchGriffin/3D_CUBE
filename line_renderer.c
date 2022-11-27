@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 22:11:57 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/19 22:47:19 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/27 01:40:49 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void render_ray(int X0, int Y0, int X1, int Y1, t_data *data, int color)
     float X = X0;
     float Y = Y0;
     for (int i = 0; i <= steps; i++) {
-        pixel_put_img(data->minimp, round(X), round(Y), color); 
+        pixel_put_img(data->wrld, round(X), round(Y), color); 
         X += Xinc;
         Y += Yinc; 
     }

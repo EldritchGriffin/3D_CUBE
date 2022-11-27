@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/24 22:53:48 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/27 00:30:59 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 
 //here im defining constants that we'll be using through the program ;; (((im gonna explain what the projection plane is when ur here its kinda abstract)));;;
-#define UNIT	64			//HOW MANY PIXELS IN EACH GRID UNIT; (( grid unit is the size dimensions of the cubes we're drawing  ));;;
+#define UNIT	100			//HOW MANY PIXELS IN EACH GRID UNIT; (( grid unit is the size dimensions of the cubes we're drawing  ));;;
 #define	P_W		320			//WIDTH OF THE PROJECTION PLANE;
 #define	P_H		200			//HEIGHT OF THE PROJECTION PLANE;
 #define PI		3.14159		//APPROXIMATE VALUE OF PI

@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/23 20:16:55 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/27 02:25:44 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	loop_rays(t_data	*data)
 {
 	int 	i;
 
-	data->rays = malloc(sizeof(float) * P_W - 1);
-	i = P_W - 1;
+	data->rays = malloc(sizeof(float) * data->mlx->w_w - 1);
+	i = data->mlx->w_w - 1;
 	while(i >= 0)
 	{
 		data->rays[i] = cast_ray(data, i);
@@ -97,7 +97,7 @@ void	render_wall2d(int	x, int	y, t_data	*data)
 	int	ox;
 
 	i = 0;
-	n_unit = (UNIT / 4) - 1;
+	n_unit = (UNIT) - 1;
 	ox = x;
 	while(i <= n_unit)
 	{
@@ -105,7 +105,7 @@ void	render_wall2d(int	x, int	y, t_data	*data)
 		j = 0;
 		while(j <= n_unit)
 		{
-			pixel_put_img(data->minimp, ox, y, 0x00FF00);
+			pixel_put_img(data->wrld, ox / 4, y / 4, 0xfc6f03);
 			j++;
 			ox++;
 		}
@@ -126,7 +126,7 @@ void	render_level2d(t_data	*data)
 		while(data->lvl->map[i][j])
 		{
 			if(data->lvl->map[i][j] == '1')
-				render_wall2d(j * UNIT / 4 , i * UNIT / 4, data);
+				render_wall2d(j * UNIT , i * UNIT, data);
 			j++;
 		}
 		i++;
@@ -157,10 +157,10 @@ void	render_walls3d(t_data	*data)
 	int i;
 
 	i = 0;
-	while(i <= 319)
+	while(i <= data->mlx->w_w - 1)
 	{
-		slice = UNIT / data->rays[i] * data->dsp * SSCL;
-		render_slice(data, slice, i* SSCL, SSCL);
+		slice = UNIT / data->rays[i] * data->dsp;
+		render_slice(data, slice, i, 1);
 		i++;
 	}
 }
@@ -172,17 +172,14 @@ int	keydown(int keycode, t_data	*data)
 	if(keycode == 13 || keycode == 1)
 		p_move(keycode, data);
 	mlx_clear_window(data->mlx->mp, data->mlx->w3);
-	mlx_destroy_image(data->mlx->mp, data->minimp->img);
 	mlx_destroy_image(data->mlx->mp, data->wrld->img);
-    data->minimp->img = mlx_new_image(data->mlx->mp,data->mlx->w_w / 4, data->mlx->w_h / 4);
     data->wrld->img = mlx_new_image(data->mlx->mp,data->mlx->w_w, data->mlx->w_h);
-	loop_rays(data);
 	render_sky(data, 0x66b3d1, data->wrld);
 	render_floor(data, 0x3d874a, data->wrld);
-	render_level2d(data);
+	loop_rays(data);
 	render_walls3d(data);
+	render_level2d(data);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
-	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->minimp->img, 0, 0);
 	return (keycode);
 }
 
@@ -197,7 +194,6 @@ int main()
 	render_sky(data, 0x66b3d1, data->wrld);
 	render_floor(data, 0x3d874a, data->wrld);
 	render_walls3d(data);
-	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->minimp->img, 0, 0);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
 	mlx_hook(data->mlx->w3, 2, 0, keydown, data);
 	mlx_loop(data->mlx->mp);

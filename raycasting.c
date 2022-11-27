@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:21:10 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/23 20:23:51 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/27 03:31:10 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ float   get_hwy(t_data  *data, int dir)
     
     if(dir == -1)
     {
-        wy = (floor(data->ply->p_pos->y / UNIT) * UNIT ) - 1;
+        wy = (floor(data->ply->p_pos->y / UNIT) * UNIT) - 0.1;
     }
     if(dir == 1)
     {
@@ -57,23 +57,23 @@ float   get_hwy(t_data  *data, int dir)
 
 float   get_vwx(t_data  *data, int dir)
 {
-    int wx;
+    float wx;
     
     if(dir == -1)
     {
-        wx = (floor(data->ply->p_pos->x / UNIT) * UNIT ) - 1;
+        wx = ((int)(data->ply->p_pos->x / UNIT) * UNIT ) - 0.1;
     }
     if(dir == 1)
     {
-        wx = (floor(data->ply->p_pos->x / UNIT) * UNIT) + UNIT;
+        wx = ((int)(data->ply->p_pos->x / UNIT) * UNIT) + UNIT;
     }
     return (wx);
 }
 
-t_pos   check_wall_h(float  *res, float ra, t_data   *data)
+t_pos   check_wall_h(double  *res, float ra, t_data   *data)
 {
-    float   xa;
-    float   ya;
+    double   xa;
+    double   ya;
     int     dir;
     t_pos   wpos;
 
@@ -98,10 +98,10 @@ t_pos   check_wall_h(float  *res, float ra, t_data   *data)
     return (wpos);
 }
 
-t_pos   check_wall_v(float  *res, float ra, t_data   *data)
+t_pos   check_wall_v(double  *res, float ra, t_data   *data)
 {
-    float xa;
-    float ya;
+    double xa;
+    double ya;
     int   dir;
     t_pos wpos;
 
@@ -115,7 +115,7 @@ t_pos   check_wall_v(float  *res, float ra, t_data   *data)
     wpos.y =  data->ply->p_pos->y + (data->ply->p_pos->x - wpos.x) * tanf(deg_to_rad(ra));
     if((int)wpos.y/UNIT >= data->lvl->l_h || (int)wpos.y/UNIT <= 0)
         return (*res = INFINITY, wpos);
-    while(data->lvl->map[(int)wpos.y/UNIT][(int)wpos.x/UNIT] != '1')
+    while(data->lvl->map[(int)(wpos.y/UNIT)][(int)wpos.x/UNIT] != '1')
     {
         wpos.x += xa;
         wpos.y += ya;
@@ -128,14 +128,14 @@ t_pos   check_wall_v(float  *res, float ra, t_data   *data)
 
 float    cast_ray(t_data    *data, int  i)
 {
-    float   h;
-    float   v;
+    double   h;
+    double   v;
     float   ra;
     int color = 0;;
     t_pos   wposv;
     t_pos   wposh;
 
-    ra = (data->ply->pa + 30) - ((i + 1) * data->abr);
+    ra = (data->ply->pa + 30) - ((i) * data->abr);
     if(ra >= 360)
 		ra = ra - 360;
 	if(ra < 0)
@@ -146,22 +146,17 @@ float    cast_ray(t_data    *data, int  i)
         color = 0x00FF00;
     wposv = check_wall_v(&v, ra, data);
     wposh = check_wall_h(&h, ra, data);
-    if(h > v)
+    if(h >= v)
     {
         if(color == 0)
             color = 0xFF0000;
-        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposv.x / 4, wposv.y / 4, data, color);
+        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposv.x / 4, wposv.y/ 4, data, color);
         return (normalize_ray(v, ra, data));
     }
     if(h < v)
     {
         if (color == 0)
             color = 255;
-        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposh.x / 4, wposh.y / 4, data, color);
-        return (normalize_ray(h, ra, data));
-    }
-    if(h == v)
-    {
         render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposh.x / 4, wposh.y / 4, data, color);
         return (normalize_ray(h, ra, data));
     }

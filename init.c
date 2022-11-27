@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/24 17:37:16 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/26 17:52:23 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
     mlx->w_w = P_W * SSCL;
     mlx->mp = mlx_init();
     mlx->w3 = mlx_new_window(mlx->mp, mlx->w_w, mlx->w_h, "CUB3D MADAFAKA");
-
 }
 
 void    level_init(t_lvl   *lvl)
@@ -104,7 +103,7 @@ void    img_init(t_data *data)
 {
     data->wrld->img = mlx_new_image(data->mlx->mp, data->mlx->w_w, data->mlx->w_h);
     data->wrld->addr = mlx_get_data_addr(data->wrld->img, &data->wrld->bpp, &data->wrld->len, &data->wrld->endn);
-    data->minimp->img = mlx_new_image(data->mlx->mp,data->mlx->w_w / 4, data->mlx->w_h / 4);
+    data->minimp->img = mlx_new_image(data->mlx->mp,data->mlx->w_w, data->mlx->w_h);
     data->minimp->addr = mlx_get_data_addr(data->minimp->img, &data->minimp->bpp, &data->minimp->len, &data->minimp->endn);
     data->floor->img = mlx_new_image(data->mlx->mp, data->mlx->w_w, data->mlx->w_h / 2);
 	data->floor->addr = mlx_get_data_addr(data->floor->img, &data->floor->bpp, &data->floor->len, &data->floor->endn);
@@ -128,7 +127,7 @@ t_data  *get_data()
     init_mlx(data->mlx, data->lvl);
     plyr_init(data->ply, data->lvl);
     img_init(data);
-    data->dsp = (P_W / 2) / tanf(deg_to_rad(data->ply->fov / 2));
-    data->abr =  data->ply->fov / P_W;
+    data->dsp = (data->mlx->w_w / 2) / tanf(deg_to_rad(data->ply->fov / 2));
+    data->abr =  data->ply->fov / data->mlx->w_w;
     return (data);
 }
