@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/26 17:52:23 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/28 00:42:05 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void    level_init(t_lvl   *lvl)
 void    plyr_init(t_ply *ply, t_lvl *lvl)
 {
     ply->fov = 60;
-    ply->p_alt = 32;
-    ply->pa = 90;
+    ply->p_alt = UNIT / 2;
+    ply->pa = 270;
     ply->p_pos = malloc(sizeof(t_pos));
     p_pos_init(ply->p_pos, lvl);
 }
@@ -127,7 +127,7 @@ t_data  *get_data()
     init_mlx(data->mlx, data->lvl);
     plyr_init(data->ply, data->lvl);
     img_init(data);
-    data->dsp = (data->mlx->w_w / 2) / tanf(deg_to_rad(data->ply->fov / 2));
+    data->dsp = ((data->mlx->w_w / 2) / tanf(deg_to_rad(data->ply->fov / 2))) - 700;
     data->abr =  data->ply->fov / data->mlx->w_w;
     return (data);
 }

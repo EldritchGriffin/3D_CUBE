@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/27 02:25:44 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/28 00:41:53 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,41 @@ void	p_rotate(int keycode,	t_data	*data)
 		data->ply->pa = 360 + data->ply->pa;
 }
 
+void	is_collided(float x, float y, t_data *data)
+{
+	int	map_x;
+	int	map_y;
+
+	map_x = x / UNIT;
+	map_y = y / UNIT;
+	if(data->lvl->map[map_y][map_x] && data->lvl->map[map_y][map_x] == '1')
+		return ;
+	else
+	{
+		data->ply->p_pos->x = x;
+		data->ply->p_pos->y = y;
+	}
+	return ;
+}
+
 void	p_move(int	keycode, t_data	*data)
 {
-	float rad;
+	float	rad;
+	float	new_y;
+	float	new_x;
 
 	rad = deg_to_rad(data->ply->pa);
 	if(keycode == 13)
 	{
-		data->ply->p_pos->x += cosf(rad) * MVS;
-		data->ply->p_pos->y -= sinf(rad) * MVS;
+		new_x = data->ply->p_pos->x + cosf(rad) * MVS;
+		new_y = data->ply->p_pos->y - sinf(rad) * MVS;
 	}
 	if(keycode == 1)
 	{
-		data->ply->p_pos->x -= cosf(rad) * MVS;
-		data->ply->p_pos->y += sinf(rad) * MVS;
+		new_x = data->ply->p_pos->x - cosf(rad) * MVS;
+		new_y = data->ply->p_pos->y + sinf(rad) * MVS;
 	}
+	is_collided(new_x, new_y, data);
 }
 
 void	render_wall2d(int	x, int	y, t_data	*data)
@@ -196,6 +216,7 @@ int main()
 	render_walls3d(data);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
 	mlx_hook(data->mlx->w3, 2, 0, keydown, data);
+	mlx_hook(data->mlx->w3, 3, 0, keydown, data);
 	mlx_loop(data->mlx->mp);
 	return(0);
 }
