@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/28 00:41:53 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/29 15:05:16 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "../includes/cube3d.h"
 
 void	loop_rays(t_data	*data)
 {
@@ -206,9 +206,11 @@ int	keydown(int keycode, t_data	*data)
 int main()
 {
 	t_data	*data;
-	int		*keycode;
+	// int		*keycode;
 
 	data = get_data();
+	if (!data)
+		return (0);
 	loop_rays(data);
 	render_level2d(data);
 	render_sky(data, 0x66b3d1, data->wrld);

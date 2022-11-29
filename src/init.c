@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/28 00:42:05 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/29 20:45:51 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "../includes/cube3d.h"
 
-//temporary functions until a map parser is created.
-char    **get_map()
+// temporary functions until a map parser is created.
+char    **get_map(t_lvl *lvl)
 {
 	char    **map;
 	char	*tmp1;
 	char	*tmp2;
 	char	*tmp3;
-	int fd	 = open("/Users/aelyakou/Desktop/cube3d/map.cub", O_RDWR);
+    
 
-	tmp1 = get_next_line(fd);
+	tmp1 = get_next_line(lvl->fd);
 	while(1)
 	{
-		tmp2 = get_next_line(fd);
+		tmp2 = get_next_line(lvl->fd);
 		if(tmp2 == NULL)
 			break;
 		tmp3 = tmp1;
@@ -34,6 +34,10 @@ char    **get_map()
 	map = ft_split (tmp1, '\n');
 	return (map);
 }
+
+
+
+
 void	print_map(char	**map)
 {
 	int i = 0;
@@ -41,6 +45,7 @@ void	print_map(char	**map)
 	while (map[i])
 		ft_putstr_fd(map[i++], 1), ft_putstr_fd("\n", 1);
 }
+
 int count_height(char   **map)
 {
     int i = 0;
@@ -82,10 +87,10 @@ void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
     mlx->w3 = mlx_new_window(mlx->mp, mlx->w_w, mlx->w_h, "CUB3D MADAFAKA");
 }
 
-void    level_init(t_lvl   *lvl)
+bool    level_init(t_lvl   *lvl)
 {
     //further coding required after the map is parsed;
-    lvl->map = get_map();
+    lvl->map = get_map(lvl);
     lvl->l_w = ft_strlen(lvl->map[0]);
     lvl->l_h = count_height(lvl->map);
 }
@@ -111,18 +116,18 @@ void    img_init(t_data *data)
 	data->ceiling->addr = mlx_get_data_addr(data->ceiling->img, &data->ceiling->bpp, &data->ceiling->len, &data->ceiling->endn);
 }
 
-t_data  *get_data()
+t_data  *get_data(int ac, char **av)
 {
     t_data  *data;
 
-    data = malloc(sizeof(t_data));
-    data->lvl = malloc(sizeof(t_lvl));
-    data->mlx = malloc(sizeof(t_mlx));
-    data->ply = malloc(sizeof(t_ply));
-    data->minimp = malloc(sizeof(t_img));
-    data->wrld = malloc(sizeof(t_img));
-    data->floor = malloc(sizeof(t_img));
-    data->ceiling = malloc(sizeof(t_img));
+    ft_init_data(&data); 
+    if (!file_check(av[1], &data->lvl)) 
+        return(NULL);
+    if (!is_filevalid(data))
+        return (printf("Invalide file format!\n"), NULL);
+    printf("%d\n", data->lvl->cco);
+    printf("%d\n", data->lvl->fco);
+    
     level_init(data->lvl);
     init_mlx(data->mlx, data->lvl);
     plyr_init(data->ply, data->lvl);

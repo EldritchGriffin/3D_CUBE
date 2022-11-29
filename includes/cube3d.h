@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/28 00:42:01 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/29 21:17:57 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,18 @@
 #include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "gnl/get_next_line.h"
-#include "libft/libft.h"
+#include "../gnl/get_next_line.h"
+#include "../libft/libft.h"
 #include <string.h>
+# include <stdbool.h>
 
 
+
+#define STDERR 2 
+#define NO 1
+#define SO 2
+#define WE 3
+#define EA 4
 //here im defining constants that we'll be using through the program ;; (((im gonna explain what the projection plane is when ur here its kinda abstract)));;;
 #define UNIT	100			//HOW MANY PIXELS IN EACH GRID UNIT; (( grid unit is the size dimensions of the cubes we're drawing  ));;;
 #define	P_W		320			//WIDTH OF THE PROJECTION PLANE;
@@ -83,8 +90,16 @@ typedef struct s_lvl
 	char	**map;
 	int		l_w;
 	int		l_h;
-	int		cco;
-	int		fco;
+	int 	fd;
+	int		fd_s;
+	int 	fd_w;
+	int		fd_e;
+	int		fd_n;
+	int		r;
+	int		g;
+	int		b;
+	unsigned int		cco;
+	unsigned int		fco;
 	char	*no;
 	char	*so;
 	char	*we;
@@ -108,17 +123,33 @@ typedef struct	s_data
 
 }				t_data;
 
+//-----parsing part (colors)----------
+void	purple(void);
+void	red(void);
+
+///-------parsin part (error check)
+bool 	is_filevalid(t_data *data);
+bool    init_texture(char *str, t_data *data, int flag);
+bool    line_check(char *str, t_data *data, int *checker);
+bool    file_check(char *av, t_lvl **map);
+bool    isvalid(char *av, char *str);
+bool    check_args(int ac, char *av);
+size_t  map_len(t_lvl **map);
+
 
 //--------------level parsing functions----------------
-
+void	ft_init_data(t_data **data);
 char    **get_map();
 t_data  *get_data();
+
+//-----------free fucntions
+void    free_tab(char **tab);
 
 //--------------level drawing functions----------------
 
 //--------------math convrsion funcs-------------------
 
-float   rad_to_deg(float    x);
+float   rad_to_deg(float  x);
 float	deg_to_rad(float  x);
 float   normalize_ray(float rl, float ra, t_data    *data);
 
