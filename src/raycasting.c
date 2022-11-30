@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:21:10 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 00:43:45 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 11:51:57 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ float    cast_ray(t_data    *data, int  i)
     double   h;
     double   v;
     float   ra;
-    int color = 0;;
     t_pos   wposv;
     t_pos   wposh;
 
@@ -143,22 +142,17 @@ float    cast_ray(t_data    *data, int  i)
     ra = limit_angles(ra);
     h = INFINITY;
     v = INFINITY;
-    if (ra == data->ply->pa)
-        color = 0x00FF00;
     wposv = check_wall_v(&v, ra, data);
     wposh = check_wall_h(&h, ra, data);
     if(h >= v)
     {
-        if(color == 0)
-            color = 0xFF0000;
-        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposv.x / 4, wposv.y/ 4, data, color);
+        data->rays[i].is_v = 1;
+        data->rays[i].wall_pos = wposv;
         return (normalize_ray(v, ra, data));
     }
     if(h < v)
     {
-        if (color == 0)
-            color = 255;
-        render_ray(data->ply->p_pos->x / 4, data->ply->p_pos->y / 4, wposh.x / 4, wposh.y / 4, data, color);
+        data->rays[i].wall_pos = wposh;
         return (normalize_ray(h, ra, data));
     }
     return (INFINITY);

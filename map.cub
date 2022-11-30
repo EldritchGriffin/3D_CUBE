@@ -1,9 +1,9 @@
-NO file.xpm
+NO xpm_files/TECH_1A_1.xpm
 C 250,30,0
-SO file.xpm
-WE file.xpm
+SO xpm_files/TECH_2A_1.xpm
+WE xpm_files/TECH_3A_1.xpm
 F 255,100,0
-EA file.xpm
+EA xpm_files/TECH_4A_1.xpm
 
 111111111111111111111
 100000100000000000001

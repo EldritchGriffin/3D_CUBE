@@ -6,7 +6,7 @@
 #    By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 19:24:15 by aelyakou          #+#    #+#              #
-#    Updated: 2022/11/30 00:51:39 by aelyakou         ###   ########.fr        #
+#    Updated: 2022/11/30 10:43:11 by aelyakou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,13 +43,13 @@ SRC        := $(addsuffix .c, $(addprefix src/parser/, $(PARSING))) \
 main        := 	$(SRC_DIR)/cube3d.c
 OBJ	        := $(SRC:.c=.o)
 CC          := 	gcc
-GCCFLAGS    := -Wall -Wextra -Werror -g 
+GCCFLAGS    := -Wall -Wextra -Werror
 # -static-libsan -fsanitize=address
 INCLUDE      := $(INCLUDE_DIR)/cube3d.h
 NAME        := Cube3d
 RECOMPILING := echo "     $(YELLOW)Recompiling..........$(YELLOW)"
 
-MLXFLAGS := -lmlx -framework OpenGL -framework AppKit -Ofast
+MLXFLAGS := -lmlx -framework OpenGL -framework AppKit
 
 ###################################TARGETS######################################################
 
