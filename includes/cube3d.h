@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 12:21:50 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 14:49:35 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #define WE 3
 #define EA 4
 //here im defining constants that we'll be using through the program ;; (((im gonna explain what the projection plane is when ur here its kinda abstract)));;;
-#define UNIT	100			//HOW MANY PIXELS IN EACH GRID UNIT; (( grid unit is the size dimensions of the cubes we're drawing  ));;;
+#define UNIT	64			//HOW MANY PIXELS IN EACH GRID UNIT; (( grid unit is the size dimensions of the cubes we're drawing  ));;;
 #define	P_W		320			//WIDTH OF THE PROJECTION PLANE;
 #define	P_H		200			//HEIGHT OF THE PROJECTION PLANE;
 #define PI		3.14159		//APPROXIMATE VALUE OF PI
@@ -112,20 +112,37 @@ typedef struct s_lvl
 	int 	e;
 }			t_lvl;
 
+typedef struct s_ray
+{
+	float	dist;
+	t_pos	wall_pos;
+	int		is_v;
+	char	intersected;
+}				t_ray;
 
+typedef struct s_texture
+{
+	void	*img;
+	int		width;
+	int		height;
+	int		*buff;
+	int		bpp;
+	int		len;
+}				t_texture;
 //t_data is the struct we gonna assign all our other main structs into in main for ease of parameter passing; lghlid dzb;;
 typedef struct	s_data
 {
-	t_lvl	*lvl;
-	t_ply	*ply;
-	t_mlx	*mlx;
-	float	abr; //angle between rays;
-	float	dsp; //distance between player and projection plane;
-	float	*rays;
-	t_img	*wrld;
-	t_img	*minimp;
-	t_img	*floor;
-	t_img	*ceiling;
+	t_lvl		*lvl;
+	t_ply		*ply;
+	t_mlx		*mlx;
+	float		abr; //angle between rays;
+	float		dsp; //distance between player and projection plane;
+	t_ray		*rays;
+	t_img		*wrld;
+	t_texture	*north;
+	t_texture	*south;
+	t_texture	*east;
+	t_texture	*west;
 
 }				t_data;
 
@@ -167,7 +184,7 @@ void	render_ray(int X0, int Y0, int X1, int Y1, t_data *data, int color);
 
 //-------------mlx_mods---------------------------------
 
-void	pixel_put_img(t_img *img, int x, int y, int color);
+void	pixel_put_img(t_img *img, int x, int y, unsigned int color);
 
 
 #endif

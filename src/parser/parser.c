@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:39:15 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/11/30 14:31:13 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 16:46:56 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,21 @@ void    init_varibles(t_lvl **lvl)
     (*lvl)->s = 0;
 } 
 
+
+
+
+bool first_line(char *str)
+{
+    int i;
+    i = -1;
+    while (str[++i])
+    {
+        if (str[i] != '1' && str[i] != ' ')
+            return (false); 
+    }
+    return (true);    
+}
+
 char    **get_map(t_lvl *lvl, char *str)
 {
 	char    **map;
@@ -232,18 +247,11 @@ char    **get_map(t_lvl *lvl, char *str)
 	char	*tmp2 = NULL;
 	char	*tmp3 = NULL;
     
-    tmp2 = str;
-    printf("tmp====>%s\n", tmp1);
-	while(1)
-	{
-		tmp3 = tmp1;
-		tmp1 = ft_strjoin(tmp1, tmp2);
-		free(tmp3);
-        free(tmp2);
-		tmp2 = get_next_line(lvl->fd);
-		if(tmp2 == NULL)
-			break;
-	}
+    tmp2 = ft_strtrim(str, "\n");
+    if (!first_line(tmp2))
+        printf("it s ttruee\n"), exit(1);
+    
+    while ()
 	map = ft_split (tmp1, '\n');
 	return (map);
 }

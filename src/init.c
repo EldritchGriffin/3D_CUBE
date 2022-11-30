@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 12:32:06 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 14:49:31 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,25 @@ void    plyr_init(t_ply *ply, t_lvl *lvl)
     p_pos_init(ply->p_pos, lvl);
 }
 
+void    init_textures(t_data *data)
+{
+    int t;
+    data->north->img = mlx_xpm_file_to_image(data->mlx->mp, data->lvl->no, &data->north->width, &data->north->height);
+    data->north->buff = (int *) mlx_get_data_addr(data->north->img, &data->north->bpp, &data->north->len, &t);
+    data->south->img = mlx_xpm_file_to_image(data->mlx->mp, data->lvl->so, &data->south->width, &data->south->height);
+    data->south->buff = (int *) mlx_get_data_addr(data->south->img, &t, &t, &t);
+    data->east->img = mlx_xpm_file_to_image(data->mlx->mp, data->lvl->ea, &data->east->width, &data->east->height);
+    data->east->buff = (int *) mlx_get_data_addr(data->east->img, &t, &t, &t);
+    data->west->img = mlx_xpm_file_to_image(data->mlx->mp, data->lvl->we, &data->west->width, &data->west->height);
+    data->west->buff = (int *) mlx_get_data_addr(data->west->img, &t, &t, &t);
+}
+
 void    img_init(t_data *data)
 {
+    int x;
+    int y;
     data->wrld->img = mlx_new_image(data->mlx->mp, data->mlx->w_w, data->mlx->w_h);
     data->wrld->addr = mlx_get_data_addr(data->wrld->img, &data->wrld->bpp, &data->wrld->len, &data->wrld->endn);
-    data->minimp->img = mlx_new_image(data->mlx->mp,data->mlx->w_w, data->mlx->w_h);
-    data->minimp->addr = mlx_get_data_addr(data->minimp->img, &data->minimp->bpp, &data->minimp->len, &data->minimp->endn);
-    data->floor->img = mlx_new_image(data->mlx->mp, data->mlx->w_w, data->mlx->w_h / 2);
-	data->floor->addr = mlx_get_data_addr(data->floor->img, &data->floor->bpp, &data->floor->len, &data->floor->endn);
-    data->ceiling->img = mlx_new_image(data->mlx->mp, data->mlx->w_w, data->mlx->w_h / 2);
-	data->ceiling->addr = mlx_get_data_addr(data->ceiling->img, &data->ceiling->bpp, &data->ceiling->len, &data->ceiling->endn);
 }
 
 t_data  *get_data(int ac, char **av)
@@ -110,6 +119,7 @@ t_data  *get_data(int ac, char **av)
     init_mlx(data->mlx, data->lvl);
     plyr_init(data->ply, data->lvl);
     img_init(data);
+    init_textures(data);
     data->dsp = ((data->mlx->w_w / 2) / tanf(deg_to_rad(data->ply->fov / 2))) - 700;
     data->abr =  data->ply->fov / data->mlx->w_w;
     return (data);
