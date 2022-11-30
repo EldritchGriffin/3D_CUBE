@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:52:57 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/01 00:09:00 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	p_move(t_data	*data)
 	new_y = data->ply->p_pos->y - sinf(rad) * MVS * data->ply->m_dir;
 	is_collided(new_x, new_y, data);
 }
+
 void	p_rotate(t_data	*data)
 {
 	data->ply->pa += TRS * data->ply->r_dir;
@@ -129,7 +130,7 @@ void	render_level2d(t_data	*data)
 		j = 0;
 		while(data->lvl->map[i][j])
 		{
-			if(data->lvl->map[i][j] == '1')
+			if (data->lvl->map[i][j] == '1')
 				render_wall2d(j * UNIT , i * UNIT, data);
 			j++;
 		}
@@ -137,24 +138,22 @@ void	render_level2d(t_data	*data)
 	}
 }
 
-// unsigned int	get_texel(t_data	*data, int x, int y, int slice)
-// {
-// 	int	off_y;
-// 	int	off_x;
-
-// 	if(data->rays[x].is_v)
-// 		off_x = fmod(data->rays[x].wall_pos.y, UNIT);
-// 	else
-// 		off_x = fmod(data->rays[x].wall_pos.x, UNIT);
-// 	off_y = (y + (data->mlx->w_h / 2) - (slice / 2)) * (UNIT / slice);
-// 	return (data->north->buff[((UNIT * off_y) + off_x)]);
-// }
+int	get_texel(t_data	*data, int x, int y, int slice)
+{
+	double	x_off;
+	double	y_off;
+	if(data->rays[x].is_v)
+		x_off = (int)data->rays[x].wall_pos.y % UNIT;
+	else
+		x_off = (int)data->rays[x].wall_pos.x % UNIT;
+	y_off = (y + slice/2) * ((double)UNIT / (double)slice);
+	return (data->south->buff[(int)((UNIT * y_off) + x_off)]);
+}
 
 void	render_slice(t_data	*data, int slice, int x)
 {
 	int	y;
 	int color;
-	// unsigned int color;
 
 	if(data->rays[x].is_v)
 		color = 0x666666;
@@ -165,7 +164,7 @@ void	render_slice(t_data	*data, int slice, int x)
 		y = (data->mlx->w_h / 2) - (slice / 2);
 		while(y <= (data->mlx->w_h / 2) + (slice / 2))
 		{
-			// color = get_texel(data, x, y, slice);
+			color = get_texel(data, x, y, slice);
 			pixel_put_img(data->wrld, x, y, color);
 			y++;
 		}
@@ -179,7 +178,7 @@ void	render_walls3d(t_data	*data)
 	i = 0;
 	while(i <= data->mlx->w_w - 1)
 	{
-		slice = UNIT / data->rays[i].dist * data->dsp;
+		slice = (UNIT / data->rays[i].dist) * data->dsp;
 		render_slice(data, slice, i);
 		i++;
 	}
@@ -234,9 +233,12 @@ int	update(t_data	*data)
 	render_floor(data, 0x3d874a, data->wrld);
 	loop_rays(data);
 	render_walls3d(data);
-	// render_level2d(data);
+	//  render_level2d(data);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->west->img,0,0);
+	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->east->img,0,64);
+	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->north->img,0,64*2);
+	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->south->img,0,64*3);
 	return (0);
 }
 

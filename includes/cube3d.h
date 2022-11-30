@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:49:35 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 20:55:38 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@
 #define	SSCL	6			//screen scaler == (P_W * SSCL && P_H * SSCL)
 #define	MSCL	8			//MINIMAP SCALER == (SCREEN WIDTH / MSCL && SCREEN HEIGHT / MSCL)
 
+# define N_ANGLE  3 * (PI / 2)
+# define S_ANGLE  (PI / 2)
+# define E_ANGLE  2 * PI
+# define W_ANGLE  PI
 //this whole struct is created as an optimization process, to avoid using mlx_put_pixel, because its damn slow, so we'll create our own.
 typedef struct	s_img
 {
@@ -162,7 +166,7 @@ size_t  map_len(t_lvl **map);
 
 //--------------level parsing functions----------------
 void	ft_init_data(t_data **data);
-char    **get_map();
+char    **get_map(t_data *data , char *str);
 t_data  *get_data();
 
 //-----------free fucntions

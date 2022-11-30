@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:39:15 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/11/30 16:46:56 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 22:30:51 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,21 +202,6 @@ bool    line_check(char *str, t_data *data, int *checker)
     return (false);
 }
 
-bool check_ismap(char *str)
-{
-    int i;
-
-    i = -1;
-    if(!str)
-        return (false);
-    while (str[++i])
-    {
-        if (str[i] == '1' || str[i] == '0')
-            return (true);
-    }
-    return (false);
-}
-
 void    init_varibles(t_lvl **lvl)
 {
     (*lvl)->n = 0;
@@ -226,35 +211,143 @@ void    init_varibles(t_lvl **lvl)
 } 
 
 
-
-
 bool first_line(char *str)
 {
     int i;
     i = -1;
     while (str[++i])
     {
-        if (str[i] != '1' && str[i] != ' ')
-            return (false); 
+        if (str[i]!= '1' && str[i] != ' ' )
+        {
+            if (str[i] != '\n' && str[i + 1 ] != 0)
+                return (false);     
+        }
     }
     return (true);    
 }
 
-char    **get_map(t_lvl *lvl, char *str)
+bool newline_check(char *str)
+{
+    int i;
+    
+    i = 0;
+    while(str[i] && str[i + 1])
+    {
+        if (str[i] == '\n' && str[i + 1] == '\n')
+            return (printf("its true\n\n"), true);
+        if (str[i] == '\n' && (str[i + 1] == '\t' || str[i + 1] == ' '))
+        {
+            while(str[++i] == ' ');
+            if (str[i] == '\n')
+                return (printf("new_line found!!"), true);      
+        }
+        i++;
+    }
+    return (false);
+}
+
+bool is_player(char c)
+{
+    return (c == 'N' || c == 'S' || c == 'W' || c == 'E');
+}
+
+bool check_last(char *str)
+{
+    return (str[ft_strlen(str) - 1] == '1' || str[ft_strlen(str) - 1] == ' '); 
+}
+
+bool check_first(char *str)
+{
+    return (str[0] == '1' || str[0] == ' '); 
+}
+
+bool issournded(int i, int j, char **map)
+{   
+   if (!check_first(map[i]) || !check_last(map[i]))
+            return (false);
+   if (map[i][j] == '0' || is_player(map[i][j]))
+   {
+        if (map[i][j + 1] == ' ' || map[i][j -1] == ' ')
+                return (printf("1\n"), false);
+        else if(j > ft_strlen(map[i - 1]) || map[i - 1][j] == ' ')
+            return (printf("2\n"),false);
+        else if(j > ft_strlen(map[i + 1]) || map[i + 1][j] == ' ')
+                return (printf("3\n"),false);
+   }
+   return (true);
+}
+
+void    init_pos(char c, t_data *data)
+{
+    if (c == 'N')
+        data->ply->pa  = N_ANGLE;
+    else if (c == 'E')
+        data->ply->pa = E_ANGLE;
+    else if (c == 'W')
+        data->ply->pa = W_ANGLE;
+    else if (c == 'S')
+        data->ply->pa = S_ANGLE;
+}
+
+bool check_map(char **map, t_data *data)
+{
+    int i;
+    int j;
+    int checker;
+
+    checker = 0;
+    i = -1;        
+    while (map[++i])
+    {
+        j = -1;
+        while (map[i][++j])
+        {
+            if (!issournded(i, j, map))
+                return (printf("%dindex===>%d, char===>%c\n", i, j, map[i][j]), false);
+            if (is_player(map[i][j]))
+            {
+                init_pos(map[i][j], data);
+                checker++;
+            }    
+        }    
+    }
+    if (checker > 1 )
+        return(printf("to many players\n"), false);
+    return (true);
+}
+
+
+char    **get_map(t_data *data, char *str)
 {
 	char    **map;
 	char	*tmp1 = NULL;
 	char	*tmp2 = NULL;
 	char	*tmp3 = NULL;
     
-    tmp2 = ft_strtrim(str, "\n");
+    tmp2 = str;
     if (!first_line(tmp2))
-        printf("it s ttruee\n"), exit(1);
-    
-    while ()
+        exit(1); //----
+	while(1)
+	{
+		tmp3 = tmp1;
+		tmp1 = ft_strjoin(tmp1, tmp2);
+		free(tmp3);
+        free(tmp2);
+		tmp2 = get_next_line(data->lvl->fd);
+		if (tmp2 == NULL)
+			break;
+	}
+    if (newline_check(tmp1))
+        exit(1);
 	map = ft_split (tmp1, '\n');
+    if (!check_map(map, data))
+        exit(1); //--- free all data beforing exitting
 	return (map);
 }
+
+
+
+
 
 // bool    map_checker(t_data *data)
 // {
@@ -274,13 +367,13 @@ bool is_filevalid(t_data *data)
 
     checker = 0;
     str = NULL;
+    data->lvl->map = NULL;
     init_varibles(&data->lvl);
     str = get_next_line(data->lvl->fd);
     while(str)
     {
         if (str[0] == '\n')
         {
-            printf("im here\n");
             free(str);
             str = get_next_line(data->lvl->fd);
             continue ;
@@ -290,15 +383,18 @@ bool is_filevalid(t_data *data)
                 return (free(str), printf("str%s\n", str), false);
             else
             {
-                data->lvl->map = get_map(data->lvl, str);
-                // free(str);
+                printf("before get map\n");
+                data->lvl->map = get_map(data, str);
+                if (!data->lvl->map)
+                    return (free(str),false);
                 break ;
             }
         }
         free(str);
         str = get_next_line(data->lvl->fd);
     }
-    
-    return (true);    
+    if (checker == 6 && data->lvl->map)
+        return (true);   
+    return (false); 
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+         #
+#    By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 19:24:15 by aelyakou          #+#    #+#              #
-#    Updated: 2022/11/30 10:43:11 by aelyakou         ###   ########.fr        #
+#    Updated: 2022/11/30 23:24:43 by zrabhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRC        := $(addsuffix .c, $(addprefix src/parser/, $(PARSING))) \
 main        := 	$(SRC_DIR)/cube3d.c
 OBJ	        := $(SRC:.c=.o)
 CC          := 	gcc
-GCCFLAGS    := -Wall -Wextra -Werror
+GCCFLAGS    := -Wall -Wextra -Werror 
 # -static-libsan -fsanitize=address
 INCLUDE      := $(INCLUDE_DIR)/cube3d.h
 NAME        := Cube3d
