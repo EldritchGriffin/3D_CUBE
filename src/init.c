@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 00:29:17 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 02:12:55 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ void    plyr_init(t_ply *ply, t_lvl *lvl)
     ply->p_alt = UNIT / 2;
     ply->pa = 270;
     ply->p_pos = malloc(sizeof(t_pos));
+    ply->r_dir = 0;
+    ply->m_dir = 0;
     p_pos_init(ply->p_pos, lvl);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 00:44:50 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 03:01:28 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@
 #define	P_W		320			//WIDTH OF THE PROJECTION PLANE;
 #define	P_H		200			//HEIGHT OF THE PROJECTION PLANE;
 #define PI		3.14159		//APPROXIMATE VALUE OF PI
-#define	MVS		10			//movement speed of player
-#define	TRS		5			//turning speed of player
+#define	MVS		5			//movement speed of player
+#define	TRS		2			//turning speed of player
 #define	SSCL	6			//screen scaler == (P_W * SSCL && P_H * SSCL)
 #define	MSCL	8			//MINIMAP SCALER == (SCREEN WIDTH / MSCL && SCREEN HEIGHT / MSCL)
 
@@ -71,6 +71,8 @@ typedef struct  s_ply
 	float		fov; // field of view;
 	float		p_alt; // player altitude/height;
 	float		pa;		//player angle;
+	int			m_dir;
+	int			r_dir;
 }               t_ply;
 
 //------------t_lvl var description for dummies hhhhhh-------------

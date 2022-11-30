@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 00:57:43 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 02:59:59 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,6 @@ void	render_floor(t_data	*data, int color, t_img	*img)
 	}
 }
 
-void	p_rotate(int keycode,	t_data	*data)
-{
-	if(keycode == 123)
-		data->ply->pa += TRS;
-	if(keycode == 124)
-		data->ply->pa -= TRS;
-	data->ply->pa = limit_angles(data->ply->pa);
-}
-
 void	is_collided(float x, float y, t_data *data)
 {
 	int	map_x;
@@ -86,24 +77,20 @@ void	is_collided(float x, float y, t_data *data)
 	return ;
 }
 
-void	p_move(int	keycode, t_data	*data)
+void	p_move(t_data	*data)
 {
 	float	rad;
 	float	new_y;
 	float	new_x;
-
 	rad = deg_to_rad(data->ply->pa);
-	if(keycode == 13)
-	{
-		new_x = data->ply->p_pos->x + cosf(rad) * MVS;
-		new_y = data->ply->p_pos->y - sinf(rad) * MVS;
-	}
-	if(keycode == 1)
-	{
-		new_x = data->ply->p_pos->x - cosf(rad) * MVS;
-		new_y = data->ply->p_pos->y + sinf(rad) * MVS;
-	}
+	new_x = data->ply->p_pos->x + cosf(rad) * MVS * data->ply->m_dir;
+	new_y = data->ply->p_pos->y - sinf(rad) * MVS * data->ply->m_dir;
 	is_collided(new_x, new_y, data);
+}
+void	p_rotate(t_data	*data)
+{
+	data->ply->pa += TRS * data->ply->r_dir;
+	data->ply->pa = limit_angles(data->ply->pa);
 }
 
 void	render_wall2d(int	x, int	y, t_data	*data)
@@ -182,21 +169,64 @@ void	render_walls3d(t_data	*data)
 	}
 }
 
-int	keydown(int keycode, t_data	*data)
+int	keyup(int keycode, t_data	*data)
 {
 	if(keycode == 123 || keycode == 124)
-		p_rotate(keycode, data);
-	if(keycode == 13 || keycode == 1)
-		p_move(keycode, data);
+		data->ply->r_dir = 0;
+	if(keycode == 13 || keycode == 1)		
+		data->ply->m_dir = 0;
+	return (0);
+}
+
+void	get_m_dir(int keycode, t_data	*data)
+{
+	if(keycode == 13)
+	{
+		data->ply->m_dir = 1;
+		return ;
+	}
+	if(keycode == 1)
+	{
+		data->ply->m_dir = -1;
+		return ;
+	}
+}
+
+
+void	get_r_dir(int keycode, t_data	*data)
+{
+	if(keycode == 124)
+	{
+		data->ply->r_dir = -1;
+		return ;
+	}
+	if(keycode == 123)
+	{
+		data->ply->r_dir = 1;
+		return ;
+	}
+}
+
+int	update(t_data	*data)
+{
+	p_move(data);
+	p_rotate(data);
 	mlx_clear_window(data->mlx->mp, data->mlx->w3);
 	mlx_destroy_image(data->mlx->mp, data->wrld->img);
-    data->wrld->img = mlx_new_image(data->mlx->mp,data->mlx->w_w, data->mlx->w_h);
+	data->wrld->img = mlx_new_image(data->mlx->mp,data->mlx->w_w, data->mlx->w_h);
 	render_sky(data, 0x66b3d1, data->wrld);
 	render_floor(data, 0x3d874a, data->wrld);
 	loop_rays(data);
 	render_walls3d(data);
 	render_level2d(data);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
+	return (0);
+}
+
+int	keydown(int keycode, t_data	*data)
+{
+	get_m_dir(keycode, data);
+	get_r_dir(keycode, data);
 	return (keycode);
 }
 
@@ -207,14 +237,9 @@ int main()
 	data = get_data();
 	if (!data)
 		return (0);
-	loop_rays(data);
-	render_level2d(data);
-	render_sky(data, 0x66b3d1, data->wrld);
-	render_floor(data, 0x3d874a, data->wrld);
-	render_walls3d(data);
-	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
 	mlx_hook(data->mlx->w3, 2, 0, keydown, data);
-	mlx_hook(data->mlx->w3, 3, 0, keydown, data);
+	mlx_hook(data->mlx->w3, 3, 0, keyup, data);
+	mlx_loop_hook(data->mlx->mp, update, data);
 	mlx_loop(data->mlx->mp);
 	return(0);
 }
