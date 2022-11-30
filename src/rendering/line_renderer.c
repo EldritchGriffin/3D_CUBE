@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   line_renderer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 22:11:57 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/29 14:52:21 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 00:52:21 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3d.h"
+#include "../../includes/cube3d.h"
 
 inline int abs(int n) { return ((n > 0) ? n : -n ); }
  

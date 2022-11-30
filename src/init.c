@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/29 20:45:51 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 00:29:17 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
     mlx->w3 = mlx_new_window(mlx->mp, mlx->w_w, mlx->w_h, "CUB3D MADAFAKA");
 }
 
-bool    level_init(t_lvl   *lvl)
+void    level_init(t_lvl   *lvl)
 {
     //further coding required after the map is parsed;
     lvl->map = get_map(lvl);

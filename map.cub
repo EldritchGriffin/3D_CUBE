@@ -1,9 +1,9 @@
-NO  makefile
+NO file.xpm
 C 250,30,0
-SO makefile
-WE makefile
-F  255,100,0
-EA makefile
+SO file.xpm
+WE file.xpm
+F 255,100,0
+EA file.xpm
 
 111111111111111111111
 100000100000000000001

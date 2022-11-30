@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/29 21:17:57 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 00:44:50 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,9 @@ void    free_tab(char **tab);
 
 //--------------level drawing functions----------------
 
-//--------------math convrsion funcs-------------------
+//--------------math funcs-------------------
 
+float   limit_angles(float ra);
 float   rad_to_deg(float  x);
 float	deg_to_rad(float  x);
 float   normalize_ray(float rl, float ra, t_data    *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 22:21:10 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/29 14:52:33 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 00:43:45 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,7 @@ float    cast_ray(t_data    *data, int  i)
     t_pos   wposh;
 
     ra = (data->ply->pa + 30.0) - ((float)(i) * data->abr);
-    if(ra > 360)
-		ra = ra - 360;
-	if(ra < 0)
-		ra = 360 + ra;
+    ra = limit_angles(ra);
     h = INFINITY;
     v = INFINITY;
     if (ra == data->ply->pa)

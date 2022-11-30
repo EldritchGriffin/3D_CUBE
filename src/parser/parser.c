@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:39:15 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/11/29 22:32:06 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/29 23:02:33 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,15 @@ bool  check_no(char *str, t_data *data)
         red();
         ft_putendl_fd("North texture file not found!", STDERR);
         return (false);
-    }        
+    }
+    close(data->lvl->fd_n);
     return (true);
 }
 
 bool  check_so(char *str, t_data *data)
 {
     data->lvl->fd_s = open(str, O_RDONLY);
+    printf("%d\n", data->lvl->fd_s);
     if (data->lvl->fd_s == -1)
     {
         close(data->lvl->fd_s);
@@ -181,11 +183,9 @@ bool    line_check(char *str, t_data *data, int *checker)
     else if (!ft_strncmp(str, "EA ", 3) && init_texture(str + 3, data, EA) \
              && isvalid(str + 3, "xpm"))
         return (printf("East file found\n"), ++*checker, true);
-    else if (!ft_strncmp(str, "C ", 2) && init_ceiling(str + 2, data) \
-        && isvalid(str + 3, "xpm"))
+    else if (!ft_strncmp(str, "C ", 2) && init_ceiling(str + 2, data))
         return (data->lvl->cco = init_color(data), true);
-     else if (!ft_strncmp(str, "F ", 2) && init_ceiling(str + 2, data) \
-        && isvalid(str + 3, "xpm"))
+     else if (!ft_strncmp(str, "F ", 2) && init_ceiling(str + 2, data))
         return (data->lvl->fco = init_color(data), true);
     return (false);
 }

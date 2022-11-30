@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/29 15:05:16 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/11/30 00:57:43 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ void	p_rotate(int keycode,	t_data	*data)
 		data->ply->pa += TRS;
 	if(keycode == 124)
 		data->ply->pa -= TRS;
-	if(data->ply->pa >= 360)
-		data->ply->pa = data->ply->pa - 360;
-	if(data->ply->pa < 0)
-		data->ply->pa = 360 + data->ply->pa;
+	data->ply->pa = limit_angles(data->ply->pa);
 }
 
 void	is_collided(float x, float y, t_data *data)
@@ -206,7 +203,6 @@ int	keydown(int keycode, t_data	*data)
 int main()
 {
 	t_data	*data;
-	// int		*keycode;
 
 	data = get_data();
 	if (!data)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+         #
+#    By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 19:24:15 by aelyakou          #+#    #+#              #
-#    Updated: 2022/11/29 22:33:38 by zrabhi           ###   ########.fr        #
+#    Updated: 2022/11/30 00:51:39 by aelyakou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,11 @@ GNL 	   := $(GNL_DIR)/get_next_line.a
 SRC_DIR    := src
 OBJ_DIR    := obj
 PARSING    := parser_utils parser colors
-src        := line_renderer raycasting init convert mlx_adds init_utils
+src        := raycasting init convert init_utils additional
+RND		   := line_renderer mlx_adds
 SRC        := $(addsuffix .c, $(addprefix src/parser/, $(PARSING))) \
-					$(addsuffix .c, $(addprefix src/, $(src))) 
+					$(addsuffix .c, $(addprefix src/, $(src))) \
+					$(addsuffix .c, $(addprefix src/rendering/, $(RND)))\
 
 main        := 	$(SRC_DIR)/cube3d.c
 OBJ	        := $(SRC:.c=.o)
@@ -99,7 +101,7 @@ fclean : clean
 	@$(MAKE) -C $(LIBFT_DIR)/ fclean
 	@$(MAKE) -C $(GNL_DIR)/ fclean
 	@echo "$(YELLOW)Removing Minishell ....    $(GREEN)$(shell basename $(NAME))$(GREEN)"
-	@rm -rf $(NAME), Cube3d.dSYM .vscode
+	@rm -rf $(NAME) Cube3d.dSYM .vscode
 	@echo "     $(YELLOW)Successfully Removed$(YELLO)"
 
 #################################################RECOMPILING##################################
