@@ -6,7 +6,7 @@
 /*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:47:28 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:44:23 by aelyakou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,31 +137,30 @@ void	render_level2d(t_data	*data)
 	}
 }
 
-// unsigned int	get_texel(t_data	*data, int x, int y, int slice)
-// {
-// 	int	off_y;
-// 	int	off_x;
-
-// 	if(data->rays[x].is_v)
-// 		off_x = fmod(data->rays[x].wall_pos.y, UNIT);
-// 	else
-// 		off_x = fmod(data->rays[x].wall_pos.x, UNIT);
-// 	off_y = (y + (data->mlx->w_h / 2) - (slice / 2)) * (UNIT / slice);
-// 	return (data->north->buff[((UNIT * off_y) + off_x)]);
-// }
+int	get_texel(t_data	*data, int x, int y, int slice)
+{
+	int	x_off;
+	int	y_off;
+	if(data->rays[x].is_v)
+		x_off = (int)data->rays[x].wall_pos.y % UNIT;
+	else
+		x_off = (int)data->rays[x].wall_pos.x % UNIT;
+	y_off = (y - slice/2) * ((float)UNIT / slice);
+	return (data->south->buff[(int)((UNIT * (float)y_off) + (float)x_off)]);
+}
 
 void	render_slice(t_data	*data, int slice, int x)
 {
 	int	y;
-	// unsigned int color;
+	int color;
 
 	if(slice > data->mlx->w_h)
 		slice = data->mlx->w_h;
 		y = (data->mlx->w_h / 2) - (slice / 2);
 		while(y <= (data->mlx->w_h / 2) + (slice / 2))
 		{
-			// color = get_texel(data, x, y, slice);
-			pixel_put_img(data->wrld, x, y, 0x666666);
+			color = get_texel(data, x, y, slice);
+			pixel_put_img(data->wrld, x, y, color);
 			y++;
 		}
 }
@@ -232,6 +231,9 @@ int	update(t_data	*data)
 	// render_level2d(data);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->west->img,0,0);
+	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->east->img,0,64);
+	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->north->img,0,64*2);
+	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->south->img,0,64*3);
 	return (0);
 }
 
