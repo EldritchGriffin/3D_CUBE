@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 03:01:28 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:21:50 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,13 @@ typedef struct s_lvl
 	unsigned int		cco;
 	unsigned int		fco;
 	char	*no;
+	int		n;
 	char	*so;
+	int 	s;
 	char	*we;
+	int 	w;
 	char	*ea;
+	int 	e;
 }			t_lvl;
 
 

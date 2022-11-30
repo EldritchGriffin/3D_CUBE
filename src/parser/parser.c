@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:39:15 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/11/29 23:02:33 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:31:13 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ bool file_check(char *av, t_lvl **map)
 
 bool  check_no(char *str, t_data *data)
 {
-    
+    data->lvl->n++;
+    if (data->lvl->n > 1 )
+        return (false);
     data->lvl->fd_n = open(str, O_RDONLY);
     if (data->lvl->fd_n == -1)
     {
@@ -60,12 +62,14 @@ bool  check_no(char *str, t_data *data)
         ft_putendl_fd("North texture file not found!", STDERR);
         return (false);
     }
-    close(data->lvl->fd_n);
-    return (true);
+    return (close(data->lvl->fd_n),true);
 }
 
 bool  check_so(char *str, t_data *data)
 {
+    data->lvl->s++;
+    if (data->lvl->s > 1 )
+        return (false);
     data->lvl->fd_s = open(str, O_RDONLY);
     printf("%d\n", data->lvl->fd_s);
     if (data->lvl->fd_s == -1)
@@ -75,11 +79,14 @@ bool  check_so(char *str, t_data *data)
         ft_putendl_fd("South texture file not found!", STDERR);
         return (false);
     }
-    return (true);
+    return (close(data->lvl->fd_s), true);
 }
 
 bool  check_we(char *str, t_data *data)
 {
+    data->lvl->w++;
+    if (data->lvl->w > 1 )
+        return (false);
     data->lvl->fd_w= open(str, O_RDONLY);
     if (data->lvl->fd_w == -1)
     {
@@ -89,11 +96,14 @@ bool  check_we(char *str, t_data *data)
         return (false);
     }
             
-    return (true);
+    return (close(data->lvl->fd_w), true);
 }
 
 bool  check_ea(char *str, t_data *data)
 {
+    data->lvl->e++;
+    if (data->lvl->e > 1 )
+        return (false);
     data->lvl->fd_e = open(str, O_RDONLY);
     if (data->lvl->fd_e == -1)
     {
@@ -102,7 +112,7 @@ bool  check_ea(char *str, t_data *data)
         ft_putendl_fd("East texture file not found!", STDERR);
         return (false);
     }        
-    return (true);
+    return (close(data->lvl->fd_e), true);
 }
 
 bool    init_texture(char *str, t_data *data, int flag)
@@ -171,6 +181,8 @@ int       init_color(t_data *data)
 
 bool    line_check(char *str, t_data *data, int *checker)
 {
+    // if (!str)
+    //     return (false);
     if (!ft_strncmp(str, "NO ", 3) && init_texture(str + 3, data, NO) \
             && isvalid(str + 3, "xpm"))
         return (printf("North file found\n"), ++*checker, true);
@@ -184,12 +196,68 @@ bool    line_check(char *str, t_data *data, int *checker)
              && isvalid(str + 3, "xpm"))
         return (printf("East file found\n"), ++*checker, true);
     else if (!ft_strncmp(str, "C ", 2) && init_ceiling(str + 2, data))
-        return (data->lvl->cco = init_color(data), true);
+        return (data->lvl->cco = init_color(data), ++*checker,true);
      else if (!ft_strncmp(str, "F ", 2) && init_ceiling(str + 2, data))
-        return (data->lvl->fco = init_color(data), true);
+        return (data->lvl->fco = init_color(data), ++*checker,true);
     return (false);
 }
 
+bool check_ismap(char *str)
+{
+    int i;
+
+    i = -1;
+    if(!str)
+        return (false);
+    while (str[++i])
+    {
+        if (str[i] == '1' || str[i] == '0')
+            return (true);
+    }
+    return (false);
+}
+
+void    init_varibles(t_lvl **lvl)
+{
+    (*lvl)->n = 0;
+    (*lvl)->e = 0;
+    (*lvl)->w = 0;
+    (*lvl)->s = 0;
+} 
+
+char    **get_map(t_lvl *lvl, char *str)
+{
+	char    **map;
+	char	*tmp1 = NULL;
+	char	*tmp2 = NULL;
+	char	*tmp3 = NULL;
+    
+    tmp2 = str;
+    printf("tmp====>%s\n", tmp1);
+	while(1)
+	{
+		tmp3 = tmp1;
+		tmp1 = ft_strjoin(tmp1, tmp2);
+		free(tmp3);
+        free(tmp2);
+		tmp2 = get_next_line(lvl->fd);
+		if(tmp2 == NULL)
+			break;
+	}
+	map = ft_split (tmp1, '\n');
+	return (map);
+}
+
+// bool    map_checker(t_data *data)
+// {
+//     char *str;
+
+//     str = get_next_line(data->lvl->fd);
+//     printf("%s\n", str);
+
+
+    
+// }
 
 bool is_filevalid(t_data *data)
 {
@@ -198,18 +266,31 @@ bool is_filevalid(t_data *data)
 
     checker = 0;
     str = NULL;
+    init_varibles(&data->lvl);
     str = get_next_line(data->lvl->fd);
-    while(str != NULL)
+    while(str)
     {
-        if (!line_check(str, data, &checker))
-            return (false);
-        if (checker == 4)
-            break ;
+        if (str[0] == '\n')
+        {
+            printf("im here\n");
+            free(str);
+            str = get_next_line(data->lvl->fd);
+            continue ;
+        }
+        if (!line_check(str, data, &checker))   {
+            if (checker != 6)   
+                return (free(str), printf("str%s\n", str), false);
+            else
+            {
+                data->lvl->map = get_map(data->lvl, str);
+                // free(str);
+                break ;
+            }
+        }
+        free(str);
         str = get_next_line(data->lvl->fd);
     }
     
-    if (checker == 3 )
-        return (printf("Not valid\n"),false);    
     return (true);    
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 02:59:59 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:35:19 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	render_wall2d(int	x, int	y, t_data	*data)
 	int	ox;
 
 	i = 0;
-	n_unit = (UNIT) - 1;
+	n_unit = (UNIT) - 2;
 	ox = x;
 	while(i <= n_unit)
 	{

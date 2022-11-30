@@ -3,40 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 02:12:55 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:32:06 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
 // temporary functions until a map parser is created.
-char    **get_map(t_lvl *lvl)
-{
-	char    **map;
-	char	*tmp1;
-	char	*tmp2;
-	char	*tmp3;
-    
-
-	tmp1 = get_next_line(lvl->fd);
-	while(1)
-	{
-		tmp2 = get_next_line(lvl->fd);
-		if(tmp2 == NULL)
-			break;
-		tmp3 = tmp1;
-		tmp1 = ft_strjoin(tmp1, tmp2);
-		free(tmp3);
-	}
-	map = ft_split (tmp1, '\n');
-	return (map);
-}
-
-
-
 
 void	print_map(char	**map)
 {
@@ -90,7 +66,7 @@ void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
 void    level_init(t_lvl   *lvl)
 {
     //further coding required after the map is parsed;
-    lvl->map = get_map(lvl);
+    // lvl->map = get_map(lvl);
     lvl->l_w = ft_strlen(lvl->map[0]);
     lvl->l_h = count_height(lvl->map);
 }
