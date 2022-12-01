@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 21:14:03 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/01 21:53:20 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
 void    level_init(t_lvl   *lvl)
 {
     //further coding required after the map is parsed;
-    lvl->l_w = ft_strlen(lvl->map[0]);
-    lvl->l_h = count_height(lvl->map);
+    lvl->l_w = map_width(&lvl);
+    lvl->l_h = map_hieght(lvl);
 }
 
 void    plyr_init(t_ply *ply, t_lvl *lvl)

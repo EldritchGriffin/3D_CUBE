@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/11/30 20:55:38 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/01 21:53:27 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ bool    line_check(char *str, t_data *data, int *checker);
 bool    file_check(char *av, t_lvl **map);
 bool    isvalid(char *av, char *str);
 bool    check_args(int ac, char *av);
-size_t  map_len(t_lvl **map);
+size_t  map_width(t_lvl **map);
+size_t  map_hieght(t_lvl *map);
 
 
 //--------------level parsing functions----------------

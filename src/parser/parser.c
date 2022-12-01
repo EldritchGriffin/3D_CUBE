@@ -6,14 +6,14 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:39:15 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/11/30 22:30:51 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/01 21:52:24 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
 
 
-size_t map_len(t_lvl **map)
+size_t map_width(t_lvl **map)
 {
    size_t height;
    size_t width;
@@ -33,6 +33,20 @@ size_t map_len(t_lvl **map)
    }
     return (reminder);
 }
+
+size_t map_hieght(t_lvl *map)
+{
+    int i;
+    size_t count;
+
+    count = 0;
+    i = -1;
+    while(map->map[++i])
+        count++;
+    return (count);   
+}
+
+
 
 
 bool file_check(char *av, t_lvl **map)
@@ -150,6 +164,31 @@ bool check_color(int w_data, t_data *data, int color)
     return (true);
 }
 
+bool validator(char c)
+{
+    return (c == ' ' || c == ',');
+}
+
+bool check_colors(char *str)
+{   
+    int i;
+    int checker; 
+    
+    i = 0;
+    checker = 0;
+    while(str[i])
+    {
+        if (str[i] == ' ' && !validator(str[i + 1]))
+            return (false);
+        if (str[i] == ',')
+            checker++;
+        i++;
+    }
+    if (checker > 2 || checker < 2)
+        return (false);
+    return (true);            
+}
+
 
 bool   init_ceiling(char *str , t_data *data)
 {
@@ -163,6 +202,8 @@ bool   init_ceiling(char *str , t_data *data)
     tmp = ft_strtrim(str," \n");
     if (!tmp)
         exit(1);//---------
+    if (!check_colors(str))
+        return (false);
     colors = ft_split(tmp, ',');
     while (colors[++i])
     {   
@@ -385,6 +426,7 @@ bool is_filevalid(t_data *data)
             {
                 printf("before get map\n");
                 data->lvl->map = get_map(data, str);
+                printf("map_len=====>%lu\n", map_width(&data->lvl));
                 if (!data->lvl->map)
                     return (free(str),false);
                 break ;
