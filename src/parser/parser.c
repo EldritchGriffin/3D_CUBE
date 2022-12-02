@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:39:15 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/02 19:26:23 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/02 22:14:39 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ bool is_filevalid(t_data *data)
                 return (free(str), printf("str%s\n", str), false);
             else
             {
-                printf("before get map\n");
                 data->lvl->map = get_map(data, str);
-                printf("map_len=====>%lu\n", map_width(&data->lvl));
+                printf("before get map\n");
+                printf("map_len=====>%lu\n", map_width(data->lvl));
                 if (!data->lvl->map)
                     return (free(str),false);
                 break ;

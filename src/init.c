@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 21:15:04 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/12/01 21:53:20 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/02 21:53:50 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void    init_mlx(t_mlx    *mlx, t_lvl   *lvl)
 void    level_init(t_lvl   *lvl)
 {
     //further coding required after the map is parsed;
-    lvl->l_w = map_width(&lvl);
+    lvl->l_w = map_width(lvl);
+    printf("init part\n");
     lvl->l_h = map_hieght(lvl);
 }
 
@@ -74,11 +75,9 @@ void    plyr_init(t_ply *ply, t_lvl *lvl)
 {
     ply->fov = 60;
     ply->p_alt = UNIT / 2;
-    ply->pa = 270;
-    ply->p_pos = malloc(sizeof(t_pos));
     ply->r_dir = 0;
     ply->m_dir = 0;
-    p_pos_init(ply->p_pos, lvl);
+    // p_pos_init(ply->p_pos, lvl);
 }
 
 void    init_textures(t_data *data)

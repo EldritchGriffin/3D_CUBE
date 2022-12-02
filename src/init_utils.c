@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelyakou <aelyakou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 14:56:09 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/11/30 08:49:13 by aelyakou         ###   ########.fr       */
+/*   Updated: 2022/12/02 21:53:21 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void    ft_init_data(t_data **data)
     (*data)->lvl = malloc(sizeof(t_lvl));
     (*data)->mlx = malloc(sizeof(t_mlx));
     (*data)->ply = malloc(sizeof(t_ply));
+    (*data)->ply->p_pos = malloc(sizeof(t_pos));
     (*data)->wrld = malloc(sizeof(t_img));
     (*data)->north = malloc(sizeof(t_texture));
     (*data)->south = malloc(sizeof(t_texture));

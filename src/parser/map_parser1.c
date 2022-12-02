@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 19:11:32 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/02 19:15:08 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/02 22:16:43 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,17 @@ bool issournded(int i, int j, char **map)
         else if(j > ft_strlen(map[i + 1]) || map[i + 1][j] == ' ')
                 return (printf("3\n"),false);
    }
+//    if (!is_player(map[i][j]))
+//     return (printf("here\n\n\n\n"), false);
    return (true);
 }
+
+static void    fill_with_zeros(char **map, int i)
+{
+    *map[i] = '0';
+}
+
+
 
 bool check_map(char **map, t_data *data)
 {
@@ -76,13 +85,16 @@ bool check_map(char **map, t_data *data)
         j = -1;
         while (map[i][++j])
         {
+             
             if (!issournded(i, j, map))
                 return (printf("%dindex===>%d, char===>%c\n", i, j, map[i][j]), false);
             if (is_player(map[i][j]))
             {
-                init_pos(map[i][j], data);
+                init_pos(map[i][j], i, j ,data);
                 checker++;
-            }    
+            }
+            if (map[i][j] == ' ')
+                map[i][j] = '0';
         }    
     }
     if (checker > 1 )

@@ -6,16 +6,25 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 19:12:55 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/02 19:16:16 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/02 22:16:27 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
 
 
+bool map_c(char c)
+{
+    return (c == '1' ||  c == '0' || c == ' ');
+}
+
+
+
 bool is_player(char c)
 {
-    return (c == 'N' || c == 'S' || c == 'W' || c == 'E');
+    // if (!map_c(c))
+        return (c == 'N' || c == 'S' || c == 'W' || c == 'E');
+    // return (map_c(c));
 }
 
 bool check_last(char *str)
@@ -35,8 +44,10 @@ bool validator(char c)
     return (c == ' ' || c == ',');
 }
 
-void    init_pos(char c, t_data *data)
+void    init_pos(char c, int i, int j, t_data *data)
 {
+    data->ply->p_pos->x = i * UNIT + (UNIT / 2);
+    data->ply->p_pos->y = j * UNIT + (UNIT / 2);
     if (c == 'N')
         data->ply->pa  = N_ANGLE;
     else if (c == 'E')

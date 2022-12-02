@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/12/01 21:57:13 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/02 19:47:47 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ void	render_wall2d(int	x, int	y, t_data	*data)
 	int	ox;
 
 	i = 0;
-	n_unit = (UNIT) - 2;
+	n_unit = (UNIT) - 1;
 	ox = x;
-	while(i <= n_unit)
+	while(i <= n_unit + 2)
 	{
 		ox = x;
 		j = 0;
-		while(j <= n_unit)
+		while(j <= n_unit + 2)
 		{
-			pixel_put_img(data->wrld, ox / 4, y / 4, 0xfc6f03);
+			pixel_put_img(data->wrld, ox / 4 , y / 4 , 0xfc6f03);
 			j++;
 			ox++;
 		}
