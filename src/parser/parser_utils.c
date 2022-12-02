@@ -6,12 +6,21 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:53:29 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/11/29 21:17:35 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/02 19:07:34 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
 
+
+
+void    init_varibles(t_lvl **lvl)
+{
+    (*lvl)->n = 0;
+    (*lvl)->e = 0;
+    (*lvl)->w = 0;
+    (*lvl)->s = 0;
+} 
 
 bool    isvalid(char *av, char *str)
 {
@@ -54,4 +63,18 @@ bool    check_args(int ac, char *av)
         return (false);
     }
     return (true); 
+}
+
+bool file_check(char *av, t_lvl **map)
+{
+
+    (*map)->fd = open(av, O_RDONLY);
+    if ((*map)->fd == -1)
+    {
+        close((*map)->fd);
+        red();
+        ft_putendl_fd("There is no map, please update a valide map!", STDERR);
+        return (false);
+    }
+    return (true);
 }

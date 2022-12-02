@@ -6,7 +6,7 @@
 #    By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 19:24:15 by aelyakou          #+#    #+#              #
-#    Updated: 2022/11/30 23:24:43 by zrabhi           ###   ########.fr        #
+#    Updated: 2022/12/02 19:25:53 by zrabhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ LIBFT      := $(LIBFT_DIR)/libft.a
 GNL 	   := $(GNL_DIR)/get_next_line.a
 SRC_DIR    := src
 OBJ_DIR    := obj
-PARSING    := parser_utils parser colors
-src        := raycasting init convert init_utils additional
+PARSING    := parser_utils parser colors color_init file_checks get_texture map_parser map_parser1 map_parser1_utils 
+src        := raycasting init convert init_utils additional 
 RND		   := line_renderer mlx_adds
 SRC        := $(addsuffix .c, $(addprefix src/parser/, $(PARSING))) \
 					$(addsuffix .c, $(addprefix src/, $(src))) \

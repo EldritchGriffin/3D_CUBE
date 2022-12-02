@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:56 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/12/01 21:54:14 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/01 21:57:13 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ int	update(t_data	*data)
 	render_floor(data, 0x3d874a, data->wrld);
 	loop_rays(data);
 	render_walls3d(data);
-	 render_level2d(data);
+	//  render_level2d(data);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->wrld->img, 0, 0);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->west->img,0,0);
 	mlx_put_image_to_window(data->mlx->mp, data->mlx->w3, data->east->img,0,64);

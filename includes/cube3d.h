@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 20:41:59 by aelyakou          #+#    #+#             */
-/*   Updated: 2022/12/01 21:53:27 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/02 19:29:33 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,14 +155,33 @@ void	purple(void);
 void	red(void);
 
 ///-------parsin part (error check)
+
 bool 	is_filevalid(t_data *data);
 bool    init_texture(char *str, t_data *data, int flag);
+int     init_color(t_data *data);
+bool 	is_player(char c);
+bool 	check_last(char *str);
+bool 	check_first(char *str);
+bool 	validator(char c);
+bool 	check_colors(char *str);
+bool 	check_color(int w_data, t_data *data, int color);
+bool 	newline_check(char *str);
+bool 	first_line(char *str);
+bool 	issournded(int i, int j, char **map);
+bool 	check_map(char **map, t_data *data);
+void    init_varibles(t_lvl **lvl);
+void    init_pos(char c, t_data *data);
 bool    line_check(char *str, t_data *data, int *checker);
 bool    file_check(char *av, t_lvl **map);
 bool    isvalid(char *av, char *str);
 bool    check_args(int ac, char *av);
 size_t  map_width(t_lvl **map);
 size_t  map_hieght(t_lvl *map);
+bool  	check_no(char *str, t_data *data);
+bool  	check_we(char *str, t_data *data);
+bool  	check_ea(char *str, t_data *data);
+bool  	check_so(char *str, t_data *data);
+bool   init_ceiling(char *str , t_data *data);
 
 
 //--------------level parsing functions----------------
